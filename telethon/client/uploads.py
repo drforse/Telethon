@@ -407,8 +407,12 @@ class UploadMethods:
                 r = await self(functions.messages.UploadMediaRequest(
                     entity, media=fm
                 ))
+                try:
+                    md5 = fh.md5
+                except AttributeError:
+                    md5 = None
                 self.session.cache_file(
-                    fh.md5, fh.size, utils.get_input_document(r.document))
+                    md5, fh.size, utils.get_input_document(r.document))
 
                 fm = utils.get_input_media(
                     r.document, supports_streaming=supports_streaming)
