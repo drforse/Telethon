@@ -408,11 +408,12 @@ class UploadMethods:
                     entity, media=fm
                 ))
                 try:
-                    md5 = fh.md5
+                    self.session.cache_file(
+                        fh.md5, fh.size, utils.get_input_document(r.document))
                 except AttributeError:
-                    md5 = None
-                self.session.cache_file(
-                    md5, fh.size, utils.get_input_document(r.document))
+                    print(fh)
+                    print(fh.__dict__)
+                    print(fh.__dict__())
 
                 fm = utils.get_input_media(
                     r.document, supports_streaming=supports_streaming)
